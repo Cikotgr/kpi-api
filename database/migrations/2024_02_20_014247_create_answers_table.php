@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreign('idUser')->references('id')->on('users');
             $table->unsignedBigInteger('idResponden');
             $table->foreign('idResponden')->references('id')->on('users');
-
+          
             $table->json("questionAnswers");
             $table->integer("totalPoin");
-
+          
             $table->timestamps();
         });
     }
