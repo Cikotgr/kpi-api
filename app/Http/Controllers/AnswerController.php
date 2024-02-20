@@ -15,7 +15,18 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $answers = Answer::all();
+
+            return response()->json([
+                'Answers' => $answers
+            ], Response::HTTP_OK);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengambil data: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -31,50 +42,58 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        $dataToStore = [];
+        try {
+            $request->validated();
 
-        $counter = 0;
+            $dataToStore = [];
 
-        foreach ($request->questionAnswers as $data) {
-            switch ($data['answer']) {
-                case 5:
-                    $poin = 2;
-                    break;
-                case 4:
-                    $poin = 1;
-                    break;
-                case 3:
-                    $poin = 0;
-                    break;
-                case 2:
-                    $poin = -1;
-                    break;
-                case 1:
-                    $poin = -2;
-                    break;
-                default:
-                    $poin = 0;
+            $counter = 0;
+
+            foreach ($request->questionAnswers as $data) {
+                switch ($data['answer']) {
+                    case 5:
+                        $poin = 2;
+                        break;
+                    case 4:
+                        $poin = 1;
+                        break;
+                    case 3:
+                        $poin = 0;
+                        break;
+                    case 2:
+                        $poin = -1;
+                        break;
+                    case 1:
+                        $poin = -2;
+                        break;
+                    default:
+                        $poin = 0;
+                }
+
+                $dataToStore[] = [
+                    'question_id' => $data['question_id'],
+                    'answer' => $data['answer'],
+                ];
+
+                $counter =+ $poin;
             }
 
-            $dataToStore[] = [
-                'question_id' => $data['question_id'],
-                'answer' => $data['answer'],
-            ];
+            $answer = Answer::create([
+                'idUser' => $request->idUser,
+                'idResponden' => $request->idResponden,
+                'questionAnswers' => json_encode($dataToStore),
+                'totalPoin' => $counter
+            ]);
 
-            $counter =+ $poin;
+            return response()->json([
+                'Answer' => $answer
+            ], Response::HTTP_OK);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal menambahkan data pertanyaan: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $answer = Answer::create([
-            'idUser' => $request->idUser,
-            'idResponden' => $request->idResponden,
-            'questionAnswers' => json_encode($dataToStore),
-            'totalPoin' => $counter
-        ]);
-
-        // return redirect()->back()->with('success', 'Data berhasil disimpan.');
-        return response()->json([
-            'Answer' => $answer
-        ], Response::HTTP_OK);
     }
 
     /**
@@ -82,11 +101,18 @@ class AnswerController extends Controller
      */
     public function show(Answer $answer)
     {
-        $answer = Answer::findOrFail($answer->id);
+        try {
+            $answer = Answer::findOrFail($answer->id);
 
-        return response()->json([
-            'Answer' => $answer
-        ]);
+            return response()->json([
+                'Answer' => $answer
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengambil data: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -115,10 +141,17 @@ class AnswerController extends Controller
 
     public function resultCount(Answer $answer)
     {
-        $answer = Answer::findOrFail($answer->id);
+        try {
+            $answer = Answer::findOrFail($answer->id);
 
-        return response()->json([
-            "Answer" => $answer
-        ]);
+            return response()->json([
+                "Answer" => $answer
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengambil data: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
