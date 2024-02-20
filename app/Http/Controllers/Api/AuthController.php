@@ -16,7 +16,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'role' => 'required|string|in:admin,staf,ob'
         ]);
 
         if ($validator->fails()) {
@@ -28,6 +29,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+        $user->assignRole($request->role);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -59,7 +61,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::user()->tokens->delete();
+        Auth::user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
         return response()->json([
             'message' => 'logout success'
         ]);
