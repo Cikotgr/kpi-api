@@ -12,8 +12,8 @@ class Answer extends Model
     protected $fillable = [
         'idUser',
         'idResponden',
-        'idQuestion',
-        'jawaban'
+        "questionAnswers",
+        'totalPoin'
     ];
 
     public function Responden(){
@@ -23,9 +23,4 @@ class Answer extends Model
     public function User(){
         return $this->belongsTo(User::class, 'idUser');
     }
-
-    public function Question(){
-        return $this->belongsTo(Question::class, 'idQuestion');
-    }
-
 }

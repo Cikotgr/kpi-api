@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('idUser');
             $table->foreign('idUser')->references('id')->on('users');
             $table->unsignedBigInteger('idResponden');
             $table->foreign('idResponden')->references('id')->on('users');
-            $table->unsignedBigInteger('idQuestion');
-            $table->foreign('idQuestion')->references('id')->on('questions');
-            $table->string('jawaban');
+
+            $table->json("questionAnswers");
+            $table->integer("totalPoin");
+
             $table->timestamps();
         });
     }
