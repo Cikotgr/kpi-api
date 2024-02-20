@@ -29,4 +29,7 @@ Route::post('/add-question', [QuestionController::class, 'store']);
 Route::resource("answer", AnswerController::class);
 Route::get("result-count/{answer}", [AnswerController::class, 'resultCount'])->name("result-count");
 
+Route::get('/all-users', [UserController::class, 'index']);
+Route::get('/all-ob', [UserController::class, 'ob_index']);
+
 require __DIR__.'/auth-api.php';
