@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
@@ -22,10 +23,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
 Route::get('/all-questions', [QuestionController::class, 'index']);
 Route::post('/add-question', [QuestionController::class, 'store']);
 
-require __DIR__.'/auth-api.php';
+Route::resource("answer", AnswerController::class);
+Route::get("result-count/{answer}", [AnswerController::class, 'resultCount'])->name("result-count");
 
+require __DIR__.'/auth-api.php';
