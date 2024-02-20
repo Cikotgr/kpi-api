@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreign('idUser')->references('id')->on('users');
             $table->unsignedBigInteger('idResponden');
             $table->foreign('idResponden')->references('id')->on('users');
-            $table->unsignedBigInteger('idQuestion');
-            $table->foreign('idQuestion')->references('id')->on('questions');
             $table->string('jawaban');
             $table->timestamps();
         });
