@@ -25,9 +25,14 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/all-questions', [QuestionController::class, 'index']);
-    Route::post('/add-question', [QuestionController::class, 'store']);
 
-    Route::resource("answer", AnswerController::class);
+    Route::middleware(['role:admin'])->group(function () {
+        Route::post('/add-question', [QuestionController::class, 'store']);
+    });
+
+    Route::middleware(['role:ob'])->group(function () {
+        Route::resource("answer", AnswerController::class);
+    });
 });
 
 require __DIR__.'/auth-api.php';
