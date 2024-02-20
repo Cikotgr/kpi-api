@@ -2,9 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\UserController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +14,13 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-Route::get('/all-questions', [QuestionController::class, 'index']);
-Route::post('/add-question', [QuestionController::class, 'store']);
-
-require __DIR__.'/auth-api.php';
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+});
