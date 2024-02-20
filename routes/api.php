@@ -19,9 +19,7 @@ use App\Http\Controllers\UserController;
 */
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::get('/all-questions', [QuestionController::class, 'index']);
 Route::post('/add-question', [QuestionController::class, 'store']);
