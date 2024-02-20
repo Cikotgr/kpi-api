@@ -23,9 +23,14 @@ use App\Http\Controllers\UserController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/all-questions', [QuestionController::class, 'index']);
-    Route::post('/add-question', [QuestionController::class, 'store']);
 
-    Route::resource("answer", AnswerController::class);
+    Route::middleware(['role:admin'])->group(function () {
+        Route::post('/add-question', [QuestionController::class, 'store']);
+    });
+
+    Route::middleware(['role:ob'])->group(function () {
+        Route::resource("answer", AnswerController::class);
+    });
 });
 
 Route::get('/all-users', [UserController::class, 'index']);
