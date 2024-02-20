@@ -23,10 +23,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/all-questions', [QuestionController::class, 'index']);
-Route::post('/add-question', [QuestionController::class, 'store']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/all-questions', [QuestionController::class, 'index']);
+    Route::post('/add-question', [QuestionController::class, 'store']);
 
-Route::resource("answer", AnswerController::class);
-Route::get("result-count/{answer}", [AnswerController::class, 'resultCount'])->name("result-count");
+    Route::resource("answer", AnswerController::class);
+});
 
 require __DIR__.'/auth-api.php';
