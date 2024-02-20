@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,4 @@ Route::get('/all-questions', [QuestionController::class, 'index']);
 Route::post('/add-question', [QuestionController::class, 'store']);
 
 require __DIR__.'/auth-api.php';
+
