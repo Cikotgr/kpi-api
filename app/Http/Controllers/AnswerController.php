@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Answer;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAnswerRequest;
@@ -104,7 +105,13 @@ class AnswerController extends Controller
         try {
             $answer = Answer::findOrFail($answer->id);
 
+            $user = User::findOrFail($answer->idUser);
+
+            $responden = User::findOrFail($answer->idResponden);
+
             return response()->json([
+                'User' => $user,
+                'Responden' => $responden,
                 'Answer' => $answer
             ]);
         } catch (\Throwable $e) {
@@ -137,21 +144,5 @@ class AnswerController extends Controller
     public function destroy(Answer $answer)
     {
         //
-    }
-
-    public function resultCount(Answer $answer)
-    {
-        try {
-            $answer = Answer::findOrFail($answer->id);
-
-            return response()->json([
-                "Answer" => $answer
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Gagal mengambil data: ' . $e->getMessage()
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
     }
 }
