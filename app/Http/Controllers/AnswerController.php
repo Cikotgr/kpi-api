@@ -7,6 +7,7 @@ use App\Models\Answer;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAnswerRequest;
 use App\Http\Requests\UpdateAnswerRequest;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AnswerController extends Controller
@@ -44,7 +45,6 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validated();
 
             $dataToStore = [];
 
@@ -80,7 +80,7 @@ class AnswerController extends Controller
             }
 
             $answer = Answer::create([
-                'idUser' => $request->idUser,
+                'idUser' => Auth::id(),
                 'idResponden' => $request->idResponden,
                 'questionAnswers' => json_encode($dataToStore),
                 'totalPoin' => $counter
