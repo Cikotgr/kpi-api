@@ -10,7 +10,7 @@ class UserController extends Controller
     public function index(){
         try{
             //get data users
-            $users = User::all();
+            $users = User::role('staf')->get();
 
             //null-check
             if(count($users) > 0){
