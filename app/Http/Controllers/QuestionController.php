@@ -50,12 +50,15 @@ class QuestionController extends Controller
         try {
             // validasi input
             $request->validate([
-                'isiPertanyaan' => 'required|string'
+                'isiPertanyaan' => 'required|string',
+                'isiJawaban' => 'required|array|size:5',
+                'isiJawaban.*' => 'required|string'
             ]);
 
             // create data pertanyaan
             $question = Question::create([
-                'isiPertanyaan' => $request->input('isiPertanyaan')
+                'isiPertanyaan' => $request->input('isiPertanyaan'),
+                'isiJawaban' => json_encode($request->input('isiJawaban'))
             ]);
 
             return response()->json([
