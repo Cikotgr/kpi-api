@@ -45,12 +45,19 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         try {
+            $request->validate([
+                "idResponden" => "required|integer|exists:users,id",
+                "questionAnswers" => "required",
+                "questionAnswers.*.question_id" => "integer|exists:questions,id",
+                "questionAnswers.*.answer" => "integer|min:1|max:5"
+            ]);
 
             $dataToStore = [];
 
             $counter = 0;
 
             foreach ($request->questionAnswers as $data) {
+
                 switch ($data['answer']) {
                     case 5:
                         $poin = 2;
