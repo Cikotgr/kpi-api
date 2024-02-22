@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/add-question', [QuestionController::class, 'store']);
     });
 
-    Route::middleware(['role:ob'])->group(function () {
+    Route::middleware(['role:staf'])->group(function () {
         Route::resource("answer", AnswerController::class);
     });
 });
