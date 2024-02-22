@@ -33,7 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-Route::get('/all-users', [UserController::class, 'index']);
+
+Route::get('/all-staf', [UserController::class, 'index']);
+
 Route::get('/all-ob', [UserController::class, 'ob_index']);
 
 require __DIR__.'/auth-api.php';
