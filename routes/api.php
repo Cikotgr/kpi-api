@@ -39,7 +39,10 @@ Route::get('/all-staf', [UserController::class, 'index']);
 
 Route::get('/all-ob', [UserController::class, 'ob_index']);
 
-Route::get('/scors', [scoreController::class, 'index']);
-Route::get('/scor/{id}', [scoreController::class, 'show']);
+Route::middleware(['role:admin,ob'])->group(function () {
+    Route::get('/scors', [scoreController::class, 'index']);
+    Route::get('/scor/{id}', [scoreController::class, 'show']);
+});
+
 
 require __DIR__.'/auth-api.php';
