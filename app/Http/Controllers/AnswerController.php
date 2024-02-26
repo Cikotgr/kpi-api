@@ -50,7 +50,7 @@ class AnswerController extends Controller
                 "idResponden" => ["required","integer",new idRespondenRole],
                 "questionAnswers" => "required",
                 "questionAnswers.*.question_id" => "integer|exists:questions,id",
-                "questionAnswers.*.answer" => "integer|size:5"
+                "questionAnswers.*.answer" => "integer|min:1|max:5"
             ]);
 
             $dataToStore = [];
