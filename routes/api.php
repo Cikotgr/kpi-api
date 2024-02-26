@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\scoreController;
 use App\Http\Controllers\UserController;
 
 
@@ -37,5 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/all-staf', [UserController::class, 'index']);
 
 Route::get('/all-ob', [UserController::class, 'ob_index']);
+
+Route::get('/scors', [scoreController::class, 'index']);
+Route::get('/scor/{id}', [scoreController::class, 'show']);
 
 require __DIR__.'/auth-api.php';
