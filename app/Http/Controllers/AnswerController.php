@@ -7,6 +7,7 @@ use App\Models\Answer;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAnswerRequest;
 use App\Http\Requests\UpdateAnswerRequest;
+use App\Rules\idRespondenRole;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -46,7 +47,7 @@ class AnswerController extends Controller
     {
         try {
             $request->validate([
-                "idResponden" => "required|integer|exists:users,id",
+                "idResponden" => ["required","integer",new idRespondenRole],
                 "questionAnswers" => "required",
                 "questionAnswers.*.question_id" => "integer|exists:questions,id",
                 "questionAnswers.*.answer" => "integer|min:1|max:5"
